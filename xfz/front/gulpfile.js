@@ -5,6 +5,7 @@ var uglify = require('gulp-uglify');
 var concat = require('gulp-concat');
 var imagemin = require('gulp-imagemin');
 var cache = require('gulp-cache');
+var sass = require("gulp-sass");
 var bs = require("browser-sync").create();
 
 var path = {
@@ -25,7 +26,8 @@ gulp.task("html", function () {
 
 //定义一个css任务
 gulp.task("css", function () {
-    gulp.src(path.css + "*.css")
+    gulp.src(path.css + "*.scss")
+        .pipe(sass().on("error",sass.logError))
         .pipe(cssnano())
         .pipe(rename({"suffix": ".min"}))
         .pipe(gulp.dest(path.css_dist))
@@ -35,7 +37,7 @@ gulp.task("css", function () {
 //定义一个js任务
 gulp.task('js', function () {
     gulp.src(path.js + "*.js")
-        .pipe(concat('index.js'))
+        .pipe(concat('index.scss.js'))
         .pipe(uglify())
         .pipe(gulp.dest(path.js_dist))
         .pipe(bs.stream())
@@ -52,7 +54,7 @@ gulp.task('image', function () {
 //定义监听文件修改的任务
 gulp.task("watch", function () {
     gulp.watch(path.html + '*.html', ["html"]);
-    gulp.watch(path.css + '*.css', ["css"]);
+    gulp.watch(path.css + '*.scss', ["css"]);
     gulp.watch(path.js + '*.js', ["js"]);
     gulp.watch(path.images + '*.*', ["images"]);
 });
