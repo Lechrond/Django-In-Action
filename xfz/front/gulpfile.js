@@ -9,7 +9,7 @@ var sass = require("gulp-sass");
 var bs = require("browser-sync").create();
 
 var path = {
-    'html':'./templates/**/',
+    'html': './templates/**/',
     'css': './src/css/',
     'js': './src/js/',
     'images': './src/images/',
@@ -27,7 +27,7 @@ gulp.task("html", function () {
 //定义一个css任务
 gulp.task("css", function () {
     gulp.src(path.css + "*.scss")
-        .pipe(sass().on("error",sass.logError))
+        .pipe(sass().on("error", sass.logError))
         .pipe(cssnano())
         .pipe(rename({"suffix": ".min"}))
         .pipe(gulp.dest(path.css_dist))
