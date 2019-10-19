@@ -13,19 +13,59 @@
 // console.log(banner.person);
 // banner.greet('lechrond');
 
-
 function Banner() {
+    //单个轮播图的宽度
+    this.bannerWidth = 798;
+    //播放轮播图的盒子
     this.bannerGroup = $("#banner-group");
-    this.index = 0;
+    //当前轮到的图片
+    this.index = 1;
+    //左箭头
     this.leftArrow = $(".left-arrow");
+    //右箭头
     this.rightArrow = $(".right-arrow");
+    //轮播图列表
     this.bannerUl = $("#banner-ul");
+    //轮播图的集合
     this.liList = this.bannerUl.children("li");
+    //轮播图的数量
     this.bannerCount = this.liList.length;
-    this.listenBannerHover();
+    //获取小白点
+    this.pageControl = $(".page-control");
 }
 
+Banner.prototype.initBanner = function () {
+    var self = this;
+
+    var firstBanner = self.liList.eq(0).clone();
+    var lastBanner = self.liList.eq(self.bannerCount - 1).clone();
+    self.bannerUl.append(firstBanner);
+    self.bannerUl.prepend(lastBanner);
+
+    //动态设置轮播图的总宽度
+    this.bannerUl.css({
+        "width": self.bannerWidth * (self.bannerCount + 2),
+        'left': -self.bannerWidth
+    })
+};
+
+Banner.prototype.initPageControl = function () {
+    var self = this;
+    for (var i = 0; i < self.bannerCount; i++) {
+        //创建li标签
+        var circle = $("<li></li>");
+        self.pageControl.append(circle);
+        //默认激活第一个
+        if (i === 0) {
+            circle.addClass('active');
+        }
+    }
+    //设置ul的宽度
+    self.pageControl.css({'width': self.bannerCount * 15 + (self.bannerCount - 1) * 16 + 2 * 8});
+};
+
 Banner.prototype.toggleArrow = function (isShow) {
+    //实现鼠标悬停显示箭头，离开消失
     var self = this;
     if (isShow) {
         self.leftArrow.show();
@@ -37,7 +77,42 @@ Banner.prototype.toggleArrow = function (isShow) {
 
 };
 
+
+Banner.prototype.animate = function () {
+    //实现图片轮播到指定的index
+    var self = this;
+    //每次轮播的移动时间为500ms
+    this.bannerUl.animate({'left': -798 * self.index}, 500);
+    var index = self.index;
+    if (index === 0) {
+        index = self.bannerCount - 1;
+    } else if (index === self.bannerCount + 1) {
+        index = 0;
+    } else {
+        index = self.index - 1;
+    }
+    self.pageControl.children('li').eq(index).addClass('active').siblings().removeClass('active');
+};
+
+
+Banner.prototype.loop = function () {
+    //实现自动循环轮播
+    var self = this;
+    //定时器，时间间隔2000ms
+    this.timer = setInterval(function () {
+        if (self.index >= self.bannerCount + 1) {
+            //遇到最后拼接的图片就跳转到原始的第一张图片，不采用动画效果
+            self.bannerUl.css({'left': -self.bannerWidth});
+            self.index = 2;
+        } else {
+            self.index++;
+        }
+        self.animate();
+    }, 2000);
+};
+
 Banner.prototype.listenBannerHover = function () {
+    //监听鼠标的悬停
     var self = this;
     this.bannerGroup.hover(function () {
             //把鼠标移上去的时候执行
@@ -51,40 +126,55 @@ Banner.prototype.listenBannerHover = function () {
         })
 };
 
-Banner.prototype.animate = function () {
-    var self = this;
-    this.bannerUl.animate({'left': -798 * self.index}, 500);
-};
-
-
-Banner.prototype.loop = function () {
-    var self = this;
-    //定时轮播效果，时间间隔2000ms
-    this.timer = setInterval(function () {
-        self.index++;
-        if (self.index > self.bannerCount - 1) self.index = 0;
-        //每次轮播的移动时间为500ms
-        self.animate();
-    }, 2000);
-};
-
 Banner.prototype.listenBannerClick = function () {
+    //实现点击箭头切换轮播图
     var self = this;
     self.leftArrow.click(function () {
-        self.index--;
-        if (self.index < 0) self.index = self.bannerCount - 1;
+        //左箭头逻辑
+        if (self.index === 0) {
+            self.bannerUl.css({'left': -self.bannerCount * self.bannerWidth});
+            self.index = self.bannerCount - 1;
+        } else {
+            self.index--;
+        }
         self.animate();
     });
     self.rightArrow.click(function () {
-        self.index++;
-        if (self.index > self.bannerCount - 1) self.index = 0;
+        //右箭头逻辑
+        if (self.index === self.bannerCount + 1) {
+            self.bannerUl.css({'left': -self.bannerWidth});
+            self.index = 2;
+        } else {
+            self.index++;
+        }
         self.animate();
     });
 };
 
+Banner.prototype.listenPageControl = function () {
+    //监听小白点的事件
+    var self = this;
+    self.pageControl.children('li').each(function (index, obj) {
+        $(obj).click(function () {
+            self.index = index;
+            self.animate();
+        })
+    })
+};
+
 Banner.prototype.run = function () {
+    //初始化轮播图
+    this.initBanner();
+    //初始化小白点
+    this.initPageControl();
+    //启动自动轮播
     this.loop();
+    //启动监听鼠标点击
     this.listenBannerClick();
+    //启动监听鼠标悬停
+    this.listenBannerHover();
+    //启动监听小白点
+    this.listenPageControl();
 };
 
 $(function () {
