@@ -156,7 +156,7 @@ Banner.prototype.listenPageControl = function () {
     var self = this;
     self.pageControl.children('li').each(function (index, obj) {
         $(obj).click(function () {
-            self.index = index;
+            self.index = index+1;
             self.animate();
         })
     })
