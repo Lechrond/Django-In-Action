@@ -12,6 +12,11 @@ body {
   width: 100%;
   height: $navHeight;
   background: #3a3a3a;
+  position: fixed;
+  left: 0;
+  top: 0;
+  right: 0;
+  //opacity: 0.5;
 
   .container {
     width: $pageWidth;
@@ -61,14 +66,89 @@ body {
       font-size: 20px;
       color: white;
 
-      .iconfont{
+      .iconfont {
         color: white;
         font-size: 20px;
       }
 
-      a{
+      a {
         color: white;
       }
+    }
+  }
+}
+
+.main {
+  width: 100%;
+  margin-top: $navHeight+20px;
+
+
+  .wrapper {
+    width: $pageWidth;
+    margin: 0 auto;
+    background: #6ad999;
+    height: 2000px;
+    overflow: hidden;
+
+
+    .news-wrapper {
+      $bannerWidth: $mainBoxWidth;
+      $bannerHeight: 205px;
+      float: left;
+      width: $mainBoxWidth;
+      height: 500px;
+      background: #ff9062;
+
+      .banner-group {
+        width: 100%;
+        height: $bannerHeight;
+        background: darkgoldenrod;
+        position: relative;
+
+        .banner-ul {
+          overflow: hidden;
+          width: $bannerWidth*4;
+          position: absolute;
+          left: 0;
+
+          li {
+            float: left;
+            width: $bannerWidth;
+            height: $bannerHeight;
+
+            img {
+              width: $bannerWidth;
+              height: $bannerHeight;
+            }
+          }
+        }
+
+        .arrow {
+          font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+          font-size: 70px;
+          color: white;
+          position: absolute;
+          top: 50%;
+          margin-top: -45px;
+          cursor: pointer;
+          display: none;
+        }
+
+        .left-arrow {
+          left: 30px;
+        }
+
+        .right-arrow {
+          right: 30px;
+        }
+      }
+    }
+
+    .sidebar-wrapper {
+      float: right;
+      width: 356px;
+      height: 500px;
+      background: #fec1ff;
     }
   }
 }
