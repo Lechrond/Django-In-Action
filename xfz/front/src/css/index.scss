@@ -169,10 +169,11 @@ body {
 
       }
 
+      //新闻模块组
       .list-outer-group {
         margin-top: 14px;
         background: white;
-
+        //新闻导航条
         .list-tab {
           height: 66px;
           width: 100%;
@@ -203,6 +204,7 @@ body {
           }
         }
 
+        //新闻咨询
         .list-inner-group {
           li {
             padding: 20px;
@@ -232,19 +234,19 @@ body {
                 a {
                   color: #212121;
 
-                  &:hover{
+                  &:hover {
                     color: $themeColor;
                   }
                 }
               }
 
-              .decs{
+              .decs {
                 color: #878787;
                 font-size: 14px;
                 margin-top: 10px;
               }
 
-              .more{
+              .more {
                 position: absolute;
                 left: 0;
                 right: 0;
@@ -252,20 +254,36 @@ body {
                 font-size: 14px;
                 color: #878787;
 
-                .category{
+                .category {
                   color: $themeColor;
                 }
 
-                .pub-time{
+                .pub-time {
                   float: right;
                 }
 
-                .author{
+                .author {
                   float: right;
                   margin-left: 20px;
                 }
               }
             }
+          }
+        }
+
+        //加载更多
+        .load-more-group {
+          padding: 20px 0;
+          text-align: center;
+
+          .load-more {
+            width: 402px;
+            height: 40px;
+            background: #d2dcea;
+            color: #6d85ac;
+            border: none;
+            outline: none;
+            cursor: pointer;
           }
         }
       }
