@@ -208,7 +208,7 @@ body {
         .list-inner-group {
           li {
             padding: 20px;
-            border-bottom: 1px solid #eeeeee;
+            border-bottom: 1px solid $lineColor;
             overflow: hidden;
 
             .thumbnail-group {
@@ -295,7 +295,7 @@ body {
       background: white;
 
       .title-group {
-        padding: 20px;
+        padding: 15px;
         overflow: hidden;
 
         .title {
@@ -326,7 +326,7 @@ body {
           float: left;
 
           li {
-            margin-bottom: 20px;
+            margin-bottom: 18px;
             width: 100%;
             height: 50px;
             background: url("https://www.xfz.cn/static/build/images/side-icon.png");
@@ -335,7 +335,7 @@ body {
             line-height: 50px;
             overflow: hidden;
 
-            a{
+            a {
               float: left;
               margin-left: 64px;
               color: #555555;
@@ -347,16 +347,16 @@ body {
             background-position: 0 0;
           }
 
-          .weibo{
+          .weibo {
             background-position: 0 -63px;
           }
 
-          .toutiao{
+          .toutiao {
             background-position: 0 -126px;
           }
         }
 
-        .right-group{
+        .right-group {
           float: right;
           width: 108px;
           background: url("https://www.xfz.cn/static/build/images/wxQr.jpg");
@@ -365,10 +365,67 @@ body {
           text-align: center;
 
 
-          .dsc{
+          .dsc {
             margin-top: 108px;
             color: #555555;
             font-size: 14px;
+          }
+        }
+      }
+
+      .hot-news-group {
+        li {
+          padding: 10px 20px 10px 20px;
+          overflow: hidden;
+          border-bottom: 1px solid $lineColor;
+
+
+          .left-group {
+            float: left;
+            width: 205px;
+            height: 72px;
+            position: relative;
+
+            .title {
+              a {
+                font-size: 16px;
+                color: $mainFontColor;
+
+                &:hover {
+                  color: $themeColor;
+                }
+              }
+            }
+
+            .more {
+              position: absolute;
+              left: 0;
+              right: 0;
+              bottom: 0;
+              font-size: 14px;
+
+              .category {
+                color: $themeColor;
+                float: left;
+
+              }
+
+              .pub-time {
+                float: right;
+                color: $assistFontColor;
+              }
+            }
+          }
+
+          .right-group {
+            float: right;
+            width: 101px;
+            height: 72px;
+
+            img {
+              width: 100%;
+              height: 100%;
+            }
           }
         }
       }
