@@ -1,100 +1,15 @@
-@import "init.scss";
-@import "constants.scss";
-
-$navHeight: 64px;
-
-.header {
-  width: 100%;
-  height: $navHeight;
-  background: #3a3a3a;
-  position: fixed;
-  left: 0;
-  top: 0;
-  right: 0;
-  z-index: 100;
-  //opacity: 0.5;
-
-  .container {
-    width: $pageWidth;
-    height: 100%;
-    margin: 0 auto;
-    overflow: hidden;
-
-    .logo-box {
-      width: 140px;
-      height: 49px;
-      background: url("https://www.xfz.cn/static/build/images/logo.png") no-repeat;
-      margin-top: 8px;
-      float: left;
-
-      a {
-        display: block;
-        width: 100%;
-        height: 100%;
-      }
-    }
-
-    .nav {
-      margin-left: 125px;
-      float: left;
-
-      li {
-        float: left;
-        margin-right: 40px;
-        line-height: $navHeight;
-        height: $navHeight;
-        box-sizing: border-box;
-
-        a {
-          color: white;
-        }
-
-        &.active {
-          border-bottom: 5px solid #5c87d9;
-        }
-      }
-    }
-
-    .auth-box {
-      float: right;
-      line-height: $navHeight;
-      height: $navHeight;
-      font-size: 20px;
-      color: white;
-
-      .iconfont {
-        color: white;
-        font-size: 20px;
-      }
-
-      a {
-        color: white;
-      }
-    }
-  }
-}
-
-body {
-  background-color: #f2f2f2;
-}
+@import "header.scss";
+@import "body.scss";
+@import "footer.scss";
 
 .main {
-  width: 100%;
-  margin-top: $navHeight+20px;
-
-
   .wrapper {
-    width: $pageWidth;
-    margin: 0 auto;
-    overflow: hidden;
-
-
-    .news-wrapper {
+    .main-content-wrapper {
       $bannerWidth: $mainBoxWidth;
       $bannerHeight: 205px;
       float: left;
       width: $mainBoxWidth;
-
+      //轮播图组
       .banner-group {
         width: 100%;
         height: $bannerHeight;
@@ -102,13 +17,13 @@ body {
         position: relative;
         overflow: hidden;
         z-index: 0;
-
+        //轮播图容器
         .banner-ul {
           overflow: hidden;
           width: $bannerWidth*4;
           position: absolute;
           left: 0;
-
+          //单个的轮播图
           li {
             float: left;
             width: $bannerWidth;
@@ -120,7 +35,7 @@ body {
             }
           }
         }
-
+        //箭头
         .arrow {
           font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
           font-size: 70px;
@@ -139,7 +54,7 @@ body {
         .right-arrow {
           right: 30px;
         }
-
+        //小圆点
         .page-control-group {
           position: absolute;
           left: 0;
@@ -288,289 +203,6 @@ body {
         }
       }
     }
-
-    .sidebar-wrapper {
-      float: right;
-      width: 356px;
-      background: white;
-
-      .title-group {
-        padding: 15px;
-        overflow: hidden;
-
-        .title {
-          float: left;
-          font-size: 18px;
-          color: #212121;
-        }
-
-        .more {
-          float: right;
-          color: $themeColor;
-        }
-      }
-
-      .advertise-group {
-
-        img {
-          width: 100%;
-        }
-      }
-
-      .focus-group {
-        padding: 0 20px;
-        overflow: hidden;
-
-        .left-group {
-          width: 190px;
-          float: left;
-
-          li {
-            margin-bottom: 18px;
-            width: 100%;
-            height: 50px;
-            background: url("https://www.xfz.cn/static/build/images/side-icon.png");
-            background-repeat: no-repeat;
-            background-size: 26%;
-            line-height: 50px;
-            overflow: hidden;
-
-            a {
-              float: left;
-              margin-left: 64px;
-              color: #555555;
-              font-size: 14px;
-            }
-          }
-
-          .zhihu {
-            background-position: 0 0;
-          }
-
-          .weibo {
-            background-position: 0 -63px;
-          }
-
-          .toutiao {
-            background-position: 0 -126px;
-          }
-        }
-
-        .right-group {
-          float: right;
-          width: 108px;
-          background: url("https://www.xfz.cn/static/build/images/wxQr.jpg");
-          background-size: 100%;
-          background-repeat: no-repeat;
-          text-align: center;
-
-
-          .dsc {
-            margin-top: 108px;
-            color: #555555;
-            font-size: 14px;
-          }
-        }
-      }
-
-      .hot-news-group {
-        li {
-          padding: 10px 20px 10px 20px;
-          overflow: hidden;
-          border-bottom: 1px solid $lineColor;
-
-
-          .left-group {
-            float: left;
-            width: 205px;
-            height: 72px;
-            position: relative;
-
-            .title {
-              a {
-                font-size: 16px;
-                color: $mainFontColor;
-
-                &:hover {
-                  color: $themeColor;
-                }
-              }
-            }
-
-            .more {
-              position: absolute;
-              left: 0;
-              right: 0;
-              bottom: 0;
-              font-size: 14px;
-
-              .category {
-                color: $themeColor;
-                float: left;
-
-              }
-
-              .pub-time {
-                float: right;
-                color: $assistFontColor;
-              }
-            }
-          }
-
-          .right-group {
-            float: right;
-            width: 101px;
-            height: 72px;
-
-            img {
-              width: 100%;
-              height: 100%;
-            }
-          }
-        }
-      }
-    }
   }
 }
 
-.footer {
-  padding-top: 50px;
-  font-size: 14px;
-  color: #c9c9c9;
-
-  .top-group {
-    background: #555e67;
-    height: 100px;
-    padding-top: 23px;
-    box-sizing: border-box;
-
-    .top-inner-group {
-      width: $pageWidth;
-      margin: 0 auto;
-      position: relative;
-      //overflow: hidden;
-
-
-      .logo-box {
-        width: 168px;
-        height: 54px;
-        float: left;
-        background: url("http://xfz.cn/static/build/images/foot-logo.png");
-        background-repeat: no-repeat;
-        background-size: 100%;
-      }
-
-      .detail-group {
-        float: left;
-        margin-left: 84px;
-
-        .line1 {
-          overflow: hidden;
-
-          .links {
-            float: left;
-            overflow: hidden;
-
-            li {
-              padding: 0 10px;
-              float: left;
-              border-right: 1px solid #c9c9c9;
-
-              &:first-of-type {
-                padding-left: 0;
-              }
-
-              &:last-of-type {
-                border-right: none;
-              }
-
-              a {
-                color: #c9c9c9;
-              }
-            }
-          }
-
-          .about-us {
-            float: left;
-            margin-left: 36px;
-            color: #c9c9c9;
-
-            .title {
-              float: left;
-            }
-
-            .social {
-              float: left;
-              overflow: hidden;
-              color: white;
-
-              .text {
-                margin-left: 30px;
-              }
-
-              a {
-                color: white;
-              }
-
-              .weixin {
-                background: url("https://www.xfz.cn/static/build/images/wx-icon.png");
-                background-repeat: no-repeat;
-                background-size: 30%;
-                float: left;
-
-                .wx-qrcode {
-                  width: 204px;
-                  height: 204px;
-                  background: url("https://www.xfz.cn/static/build/images/xfz-wechat-share.png");
-                  background-size: 100%;
-                  position: absolute;
-                  right: 300px;
-                  bottom: 0;
-                  display: none;
-
-
-                }
-
-                &:hover .wx-qrcode {
-                  display: block;
-                }
-
-              }
-
-              .weibo {
-                float: left;
-                margin-left: 23px;
-                background: url("https://www.xfz.cn/static/build/images/xl-icon.png");
-                background-repeat: no-repeat;
-                background-size: 18%;
-              }
-            }
-          }
-        }
-
-        .line2 {
-          margin-top: 18px;
-          overflow: hidden;
-
-          .address {
-            float: left;
-          }
-
-          .contact {
-            float: left;
-            margin-left: 36px;
-          }
-        }
-      }
-
-
-    }
-  }
-
-  .bottom-group {
-    background: #383e44;
-    line-height: 60px;
-    height: 60px;
-    text-align: center;
-  }
-}
