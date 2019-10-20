@@ -7,13 +7,10 @@
     .main-content-wrapper {
       $bannerWidth: $mainBoxWidth;
       $bannerHeight: 205px;
-      float: left;
-      width: $mainBoxWidth;
       //轮播图组
       .banner-group {
         width: 100%;
         height: $bannerHeight;
-        background: darkgoldenrod;
         position: relative;
         overflow: hidden;
         z-index: 0;

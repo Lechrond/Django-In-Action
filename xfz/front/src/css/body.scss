@@ -15,6 +15,16 @@ body {
   }
 }
 
+//左侧栏
+.main {
+  .wrapper {
+    .main-content-wrapper {
+      float: left;
+      width: $mainBoxWidth;
+    }
+  }
+}
+
 //侧边栏
 .main {
   .wrapper {
