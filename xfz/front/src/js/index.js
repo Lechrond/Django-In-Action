@@ -98,7 +98,7 @@ Banner.prototype.animate = function () {
 Banner.prototype.loop = function () {
     //实现自动循环轮播
     var self = this;
-    //定时器，时间间隔2000ms
+    //定时器，时间间隔5000ms
     this.timer = setInterval(function () {
         if (self.index >= self.bannerCount + 1) {
             //遇到最后拼接的图片就跳转到原始的第一张图片，不采用动画效果
@@ -108,7 +108,7 @@ Banner.prototype.loop = function () {
             self.index++;
         }
         self.animate();
-    }, 2000);
+    }, 5000);
 };
 
 Banner.prototype.listenBannerHover = function () {
