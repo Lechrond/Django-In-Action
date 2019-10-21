@@ -68,7 +68,7 @@
 
         .article {
           margin-top: 20px;
-          font-family: 'Microsoft YaHei',Helvetica,Arial,sans-serif;
+          font-family: 'Microsoft YaHei', Helvetica, Arial, sans-serif;
 
           h3 {
             font-size: 18px;
@@ -93,6 +93,52 @@
 
           img {
             max-width: 100%;
+          }
+        }
+      }
+
+      .comment-wrapper {
+        border-top: 1px solid $lineColor;
+        padding: 20px;
+
+        .title{
+          color: $mainFontColor;
+          font-size: 18px;
+          font-weight: 400;
+        }
+
+        .comment-textarea{
+          margin-top: 10px;
+          width: 100%;
+          resize: none;
+          outline: none;
+          border: 1px solid #cccccc;
+          border-radius: 5px;
+          font-size: 14px;
+          padding: 6px 6px;
+          box-sizing: border-box;
+        }
+
+        .nologin_textarea{
+          height: 40px;
+          line-height: 26px;
+          overflow: hidden;
+        }
+
+        .logined-textarea{
+          height: 80px;
+        }
+
+        .submit-btn-group{
+          text-align: right;
+          margin-top: 10px;
+          .submit-btn{
+            background: $themeColor;
+            border: none;
+            padding: 5px 20px;
+            color: white;
+            border-radius: 5px;
+            cursor: pointer;
           }
         }
       }
