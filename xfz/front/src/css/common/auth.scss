@@ -1,0 +1,75 @@
+@import "constants.scss";
+
+
+.mask-wrapper {
+  position: fixed;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.3);
+  overflow-y: scroll;
+  display: none;
+
+  .auth-wrapper {
+    $authWrapperHeight: 500px;
+    $authWrapperWidth: 400px;
+    $closeWrapperHeight: 40px;
+    width: $authWrapperWidth;
+    height: $authWrapperHeight;
+    background: white;
+    margin: 40px auto;
+
+
+    .close-wrapper {
+      width: 100%;
+      height: $closeWrapperHeight;
+      background: white;
+      overflow: hidden;
+
+      .close-btn {
+        display: inline-block;
+        width: 30px;
+        height: 30px;
+        float: right;
+        margin-top: 10px;
+        color: $assistFontColor;
+        cursor: pointer;
+      }
+    }
+
+    .auth-inner-wrapper {
+      height: $authWrapperHeight - $closeWrapperHeight;
+      width: 100%;
+      position: relative;
+      overflow: hidden;
+
+      .scroll-wrapper {
+        width: $authWrapperWidth * 2;
+        height: 100%;
+        background: aquamarine;
+        position: absolute;
+        top: 0;
+        left: -400px;
+
+
+        .auth-group {
+          width: $authWrapperWidth;
+          height: 100%;
+        }
+
+        .signin-group {
+          float: left;
+          background: coral;
+        }
+
+        .signup-group {
+          float: left;
+          background: #ddf4cd;
+        }
+      }
+
+
+    }
+  }
+}
