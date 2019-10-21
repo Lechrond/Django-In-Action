@@ -1,6 +1,6 @@
-@import "header.scss";
-@import "body.scss";
-@import "footer.scss";
+@import "../common/header";
+@import "../common/body";
+@import "../common/footer";
 
 .main {
   .wrapper {
