@@ -2,6 +2,7 @@ from django.contrib.auth import login, logout, authenticate
 from django.views.decorators.http import require_POST
 from .forms import LoginForm
 from django.http import JsonResponse
+from utils import restful
 
 
 @require_POST
@@ -19,27 +20,11 @@ def login_view(request):
                     request.session.set_expiry(None)
                 else:
                     request.session.set_expiry(0)
-                return JsonResponse({
-                    'code': 200,
-                    'message': "",
-                    'data': {}
-                })
+                return restful.ok()
             else:
-                return JsonResponse({
-                    'code': 405,
-                    'message': "您的账号已经被冻结了",
-                    'data': {}
-                })
+                return restful.unauth('您的账号已经被冻结')
         else:
-            return JsonResponse({
-                'code': 400,
-                'message': "手机号或密码错误",
-                'data': {}
-            })
+            return restful.params_errors("手机号或密码错误")
     else:
         errors = form.get_errors()
-        return JsonResponse({
-            'code': 400,
-            'message': "",
-            'data': errors
-        })
+        return restful.params_errors(errors)
