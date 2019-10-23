@@ -4,5 +4,5 @@ from . import views
 app_name = 'news'
 
 urlpatterns = [
-    path('', views.index, name='index'),
+    path('<news_id>/', views.news_detail, name='news_detail'),
 ]
