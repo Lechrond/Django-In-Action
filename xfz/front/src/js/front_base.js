@@ -31,6 +31,7 @@ Auth.prototype.run = function () {
     self.listenSwitchEvent();
     self.listenSigninEvent();
     self.listenImgCaptchaEvent();
+    self.listenSmsCaptchEvent();
 };
 
 Auth.prototype.showEvent = function () {
@@ -124,6 +125,43 @@ Auth.prototype.listenImgCaptchaEvent = function () {
     imgCaptcha.click(function () {
         imgCaptcha.attr('src', '/account/img_captcha/' + "?random=" + Math.random())
     });
+};
+
+Auth.prototype.listenSmsCaptchEvent = function () {
+    var smsCaptcha = $(".sms-captcha-btn");
+    var telephoneInput = $(".signup-group input[name='telephone']");
+    smsCaptcha.click(function () {
+        var telephone = telephoneInput.val();
+        if (!telephone) {
+            messageBox.showInfo("请输入手机号码");
+        }
+        xfzajax.get({
+            'url': '/account/sms_captcha/',
+            'data': {
+                'telephone': telephone
+            },
+            'success': function (result) {
+                if (result['code'] == 200) {
+                    messageBox.showSuccess('短信验证码发送成功！');
+                    smsCaptcha.addClass('disable');
+                    var count = 60;
+                    var timmer = setInterval(function () {
+                        smsCaptcha.text(count + 's');
+                        count--;
+                        if (count <= 0) {
+                            clearInterval(timmer);
+                            smsCaptcha.removeClass('disable');
+                            smsCaptcha.text('发送验证码');
+                        }
+                    }, 1000);
+                }
+            },
+            'fail': function (error) {
+                console.log(error)
+            }
+        });
+    })
+
 };
 
 $(function () {

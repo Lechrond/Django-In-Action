@@ -21,7 +21,7 @@
     height: $authWrapperHeight;
     //margin: 100px auto;
     position: absolute;
-    top:50%;
+    top: 50%;
     left: 50%;
     margin-left: -$authWrapperWidth/2;
     margin-top: -$authWrapperHeight/2;
@@ -97,11 +97,11 @@
                 outline: none;
               }
 
-              .remember-label{
+              .remember-label {
                 font-size: 14px;
               }
 
-              .submit-btn{
+              .submit-btn {
                 width: 100%;
                 height: 40px;
                 background: $themeColor;
@@ -110,22 +110,31 @@
                 cursor: pointer;
               }
 
-              .short-input-group{
+              .short-input-group {
                 width: 250px;
                 float: left;
               }
 
-              .input-group-addon{
+              .input-group-addon {
                 float: right;
                 width: 100px;
-                height: 40px;
-                line-height: 40px;
-                text-align: center;
-                color: $themeColor;
-                border: 1px solid $themeColor;
-                display: inline-block;
-                box-sizing: border-box;
-                cursor: pointer;
+
+                .sms-captcha-btn {
+                  width: 100%;
+                  height: 40px;
+                  border: 1px solid $themeColor;
+                  color: $themeColor;
+                  display: inline-block;
+                  text-align: center;
+                  line-height: 40px;
+                  box-sizing: border-box;
+                  cursor: pointer;
+                }
+
+                .disabled {
+                  color: #ccc;
+                  border-color: #ccc;
+                }
               }
 
 

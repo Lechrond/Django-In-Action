@@ -3,7 +3,7 @@ from django.views.decorators.http import require_POST
 from .forms import LoginForm
 from django.http import JsonResponse, HttpResponse
 from django.shortcuts import reverse, redirect
-from utils import restful
+from utils import restful, smssender
 from utils.captcha.xfzcaptcha import Captcha
 from io import BytesIO
 
@@ -51,3 +51,13 @@ def img_captcha(request):
     response.write(out.read())
     response['Content-length'] = out.tell()
     return response
+
+
+def sms_captcha(request):
+    telephone = request.GET.get('telephone')
+    code = Captcha.gene_text()
+    result = smssender.sms_captcha_sender(telephone, code)
+    if result:
+        return restful.ok()
+    else:
+        return restful.params_errors(message='短信验证码发送失败')
