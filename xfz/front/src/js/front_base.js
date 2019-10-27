@@ -9,6 +9,7 @@ FrontBase.prototype.run = function () {
 };
 
 FrontBase.prototype.listenAuthBox = function () {
+    // 登陆后鼠标悬浮后显示浮动窗口
     var authBox = $(".auth-box");
     var userMoreBox = $(".user-more-box");
     authBox.hover(function () {
@@ -23,6 +24,7 @@ function Auth() {
     var self = this;
     self.maskWrapper = $('.mask-wrapper');
     self.scrollWrapper = $(".scroll-wrapper");
+    self.smsCaptcha = $(".sms-captcha-btn");
 }
 
 Auth.prototype.run = function () {
@@ -44,7 +46,29 @@ Auth.prototype.hideEvent = function () {
     self.maskWrapper.hide();
 };
 
+Auth.prototype.smsSuccessEvent = function () {
+    // 短信成功发送后执行的代码
+    var self = this;
+    messageBox.showSuccess('短信验证码发送成功！');
+    self.smsCaptcha.addClass('disable');
+    var count = 60;
+    // 倒计时内无法再次点击
+    self.smsCaptcha.unbind('click');
+    var timmer = setInterval(function () {
+        self.smsCaptcha.text(count + 's');
+        count--;
+        if (count <= 0) {
+            clearInterval(timmer);
+            self.smsCaptcha.removeClass('disable');
+            self.smsCaptcha.text('发送验证码');
+            // 倒计时结束后重新执行点击监听
+            self.listenSmsCaptchEvent();
+        }
+    }, 1000);
+};
+
 Auth.prototype.listenShowHideEvent = function () {
+    // 模态对话框的弹出和关闭
     var self = this;
     var signinBtn = $('.signin-btn');
     var signupBtn = $('.signup-btn');
@@ -63,6 +87,7 @@ Auth.prototype.listenShowHideEvent = function () {
 };
 
 Auth.prototype.listenSwitchEvent = function () {
+    // 模态对话框登陆和注册页面的切换
     var self = this;
     var switcher = $(".switch");
     switcher.click(function () {
@@ -121,6 +146,7 @@ Auth.prototype.listenSigninEvent = function () {
 };
 
 Auth.prototype.listenImgCaptchaEvent = function () {
+    // 点击图形验证码可以刷新
     var imgCaptcha = $('.img_captcha');
     imgCaptcha.click(function () {
         imgCaptcha.attr('src', '/account/img_captcha/' + "?random=" + Math.random())
@@ -128,9 +154,10 @@ Auth.prototype.listenImgCaptchaEvent = function () {
 };
 
 Auth.prototype.listenSmsCaptchEvent = function () {
-    var smsCaptcha = $(".sms-captcha-btn");
+    // 发送短信验证码
+    var self = this;
     var telephoneInput = $(".signup-group input[name='telephone']");
-    smsCaptcha.click(function () {
+    self.smsCaptcha.click(function () {
         var telephone = telephoneInput.val();
         if (!telephone) {
             messageBox.showInfo("请输入手机号码");
@@ -142,22 +169,11 @@ Auth.prototype.listenSmsCaptchEvent = function () {
             },
             'success': function (result) {
                 if (result['code'] == 200) {
-                    messageBox.showSuccess('短信验证码发送成功！');
-                    smsCaptcha.addClass('disable');
-                    var count = 60;
-                    var timmer = setInterval(function () {
-                        smsCaptcha.text(count + 's');
-                        count--;
-                        if (count <= 0) {
-                            clearInterval(timmer);
-                            smsCaptcha.removeClass('disable');
-                            smsCaptcha.text('发送验证码');
-                        }
-                    }, 1000);
+                    self.smsSuccessEvent();
                 }
             },
             'fail': function (error) {
-                console.log(error)
+                console.log(error);
             }
         });
     })
