@@ -37,7 +37,9 @@
                 <a href="#" class="authenticated-box">{{ user.username }}</a>
                 <div class="user-more-box">
                     <i class="triangle"></i>
-                    <a href="#">管理系统</a>
+                    {% if user.is_staff %}
+                        <a href="{% url 'cms:index' %}">管理系统</a>
+                    {% endif %}
                     <a href="{% url 'xfzauth:logout' %}">退出登录</a>
                 </div>
             {% else %}
@@ -136,7 +138,9 @@
                                 <input type="text" class="form-control" name="img_captcha"
                                        placeholder="请输入图形验证码">
                             </div>
-                            <div class="input-group-addon"><img src="{% url 'xfzauth:img_captcha' %}" alt="" class="img_captcha"></div>
+                            <div class="input-group-addon"><img
+                                    src="{% url 'xfzauth:img_captcha' %}" alt=""
+                                    class="img_captcha"></div>
                         </div>
                         <div class="input-group">
                             <input type="password" class="form-control" name="password1"
