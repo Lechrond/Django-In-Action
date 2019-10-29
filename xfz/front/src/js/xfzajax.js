@@ -31,23 +31,28 @@ var xfzajax = {
     'ajax': function (args) {
         var success = args['success'];
         args['success'] = function (result) {
-            if(result['code'] === 200){
-                if(success){
+            if (result['code'] === 200) {
+                if (success) {
                     success(result);
                 }
-            }else{
+            } else {
                 var messageObject = result['message'];
-                if(typeof messageObject == 'string' || messageObject.constructor == String){
+                if (typeof messageObject == 'string' || messageObject.constructor == String) {
                     window.messageBox.showError(messageObject);
-                }else{
+                } else {
                     // {"password":['密码最大长度不能超过20为！','xxx'],"telephone":['xx','x']}
-                    for(var key in messageObject){
+                    for (var key in messageObject) {
                         var messages = messageObject[key];
                         var message = messages[0];
                         window.messageBox.showError(message);
                     }
                 }
+                // 必须要加这一段，相当于执行外部post里的success函数
+                if (success) {
+                    success(result);
+                }
             }
+
         };
         args['fail'] = function (error) {
             console.log(error);
@@ -57,7 +62,7 @@ var xfzajax = {
     },
     '_ajaxSetup': function () {
         $.ajaxSetup({
-            beforeSend: function(xhr, settings) {
+            beforeSend: function (xhr, settings) {
                 if (!/^(GET|HEAD|OPTIONS|TRACE)$/.test(settings.type) && !this.crossDomain) {
                     xhr.setRequestHeader("X-CSRFToken", getCookie('csrftoken'));
                 }
