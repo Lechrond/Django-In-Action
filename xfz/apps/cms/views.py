@@ -3,6 +3,7 @@ from django.contrib.admin.views.decorators import staff_member_required
 from django.views.generic import View
 from django.views.decorators.http import require_POST, require_GET
 from apps.news.models import NewsCategor
+from .forms import EditNewsCategoryForm
 from utils import restful
 
 
@@ -35,3 +36,28 @@ def add_news_category(request):
         return restful.ok()
     else:
         return restful.params_errors(message='该分类已经存在')
+
+
+@require_POST
+def edit_news_category(request):
+    form = EditNewsCategoryForm(request.POST)
+    if form.is_valid():
+        pk = form.cleaned_data.get('pk')
+        name = form.cleaned_data.get('name')
+        try:
+            NewsCategor.objects.filter(pk=pk).update(name=name)
+            return restful.ok()
+        except:
+            return restful.params_errors(message='该分类不存在')
+    else:
+        return restful.params_errors(message=form.get_error())
+
+
+@require_POST
+def delete_news_category(request):
+    pk = request.POST.get('pk')
+    try:
+        NewsCategor.objects.filter(pk=pk).delete()
+        return restful.ok()
+    except:
+        return restful.params_errors(message='该分类不存在')
