@@ -123,7 +123,9 @@ Auth.prototype.listenSigninEvent = function () {
                 'remember': remember ? 1 : 0
             },
             'success': function (result) {
-                window.location.reload();
+                if (result['code'] == 200) {
+                    window.location.reload();
+                }
             },
         })
     })
@@ -160,7 +162,9 @@ Auth.prototype.listenSignupEvent = function () {
                 'sms_captcha': sms_captcha,
             },
             'success': function (result) {
-                window.location.reload();
+                if (result['code'] == 200) {
+                    window.location.reload();
+                }
             },
         })
     })
