@@ -5,6 +5,8 @@ from django.views.decorators.http import require_POST, require_GET
 from apps.news.models import NewsCategor
 from .forms import EditNewsCategoryForm
 from utils import restful
+import os
+from django.conf import settings
 
 
 # Create your views here.
@@ -15,7 +17,11 @@ def index(request):
 
 class WriteNewView(View):
     def get(self, request):
-        return render(request, 'cms/write_news.html')
+        categories = NewsCategor.objects.all()
+        context = {
+            'categories': categories
+        }
+        return render(request, 'cms/write_news.html', context=context)
 
 
 @require_GET
@@ -61,3 +67,14 @@ def delete_news_category(request):
         return restful.ok()
     except:
         return restful.params_errors(message='该分类不存在')
+
+
+@require_POST
+def upload_file(request):
+    file = request.FILES.get('file')
+    name = file.name
+    with open(os.path.join(settings.MEDIA_ROOT, name), 'wb') as fp:
+        for chunk in file.chunks():
+            fp.write(chunk)
+    url = request.build_absolute_uri(settings.MEDIA_URL + name)
+    return restful.result(data={'url': url})
