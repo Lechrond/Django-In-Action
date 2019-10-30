@@ -1,6 +1,7 @@
 node_modules/
 
 # Byte-compiled / optimized / DLL files
+media/
 .idea/
 __pycache__/
 *.py[cod]
