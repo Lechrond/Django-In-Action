@@ -1,4 +1,5 @@
 class FormMixin(object):
+    """处理表单的错误信息"""
     def get_errors(self):
         if hasattr(self, 'errors'):
             errors = self.errors.get_json_data()

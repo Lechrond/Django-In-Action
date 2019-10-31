@@ -2,8 +2,8 @@ function News() {
 
 }
 
-News.prototype.initUeditor=function(){
-    window.ue = UE.getEditor('editor',{
+News.prototype.initUeditor = function () {
+    window.ue = UE.getEditor('editor', {
         'initialFrameHeight': 400,
         'initialFrameWidth': 1240,
         'serverUrl': '/ueditor/upload/'
@@ -98,11 +98,41 @@ News.prototype.handleFileUploadComplete = function (response) {
     thumbnailInput.val(url);
 };
 
+News.prototype.listenSubmitEvent = function () {
+    var submitBtn = $('#submit-btn');
+    submitBtn.click(function (event) {
+        event.preventDefault();
+        var title = $("input[name='title']").val();
+        var category = $("select[name='category']").val();
+        var desc = $("input[name='desc']").val();
+        var thumbnail = $("input[name='thumbnail']").val();
+        var content = window.ue.getContent();
+        xfzajax.post({
+            'url': '/cms/write_news/',
+            'data': {
+                'title': title,
+                'category': category,
+                'desc': desc,
+                'thumbnail': thumbnail,
+                'content': content
+            },
+            'success': function (result) {
+                if (result['code'] === 200) {
+                    xfzalert.alertSuccess('新闻发表成功！', function () {
+                        window.location.reload();
+                    });
+                }
+            }
+        })
+    });
+};
+
 News.prototype.run = function () {
     var self = this;
     // self.listenUploadFileEvent();
     self.initUeditor();
     self.listenQiniuUploadFileEvent();
+    self.listenSubmitEvent();
 };
 
 $(function () {
