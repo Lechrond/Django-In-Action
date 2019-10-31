@@ -1,9 +1,16 @@
 from django.shortcuts import render
+from .models import News, NewsCategor
 
 
 # Create your views here.
 def index(request):
-    return render(request, 'news/index.html')
+    newses = News.objects.all()
+    categories = NewsCategor.objects.all()
+    context = {
+        'newses': newses,
+        'categories': categories,
+    }
+    return render(request, 'news/index.html', context=context)
 
 
 def news_detail(request, news_id):
