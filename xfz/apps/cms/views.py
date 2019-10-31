@@ -83,9 +83,9 @@ def upload_file(request):
 
 @require_GET
 def qntoken(request):
-    access_key = 'UZq-ZUmD1CQNOLq0NVUxx3cWzGxGfeUoQfg3bDPy'
-    secret_key = 'vXClBDan5GHUnjNlE3oK0yU3EjGhKjObyiNLNST2'
+    access_key = settings.QINIU_ACCESS_KEY
+    secret_key = settings.QINIU_SECRET_KEY
     q = qiniu.Auth(access_key, secret_key)
-    bucket_name = 'lechace'
+    bucket_name = settings.QINIU_BUCKET_NAME
     token = q.upload_token(bucket=bucket_name)
     return restful.result(data={'token': token})
