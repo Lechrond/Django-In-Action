@@ -8,6 +8,39 @@
 {% block head %}
     <link rel="stylesheet" href="{% static 'css/news/index.min.css' %}">
     <script src="{% static 'js/index.min.js' %}"></script>
+    <script src="{% static 'arttemplate/template-web.js' %}"></script>
+    <script id="news-item" type="text/html">
+    {% verbatim %}
+        {{ each newses news index }}
+        <li>
+            <!-- 缩略图 -->
+            <div class="thumbnail-group">
+                <a href="#"><img
+                        src="{{ news.thumbnail }}"
+                        alt=""></a>
+            </div>
+            <!-- 新闻摘要 -->
+            <div class="news-group">
+                <!-- 标题 -->
+                <p class="title"><a href="#">{{ news.title }}</a>
+                </p>
+                <!-- 描述信息 -->
+                <p class="decs">{{ news.desc }}</p>
+                <!-- 更多信息 -->
+                <p class="more">
+                    <!-- 类型 -->
+                    <span class="category">{{ news.category.name }}</span>
+                    <!-- 作者 -->
+                    <span class="author">{{ news.author.username }}</span>
+                    <!-- 时间 -->
+                    <span class="pub-time">{{ news.pub_time }}</span>
+                </p>
+            </div>
+        </li>
+
+        {{ /each }}
+    </script>
+    {% endverbatim %}
 {% endblock %}
 
 {% block main %}
@@ -85,7 +118,7 @@
                     </ul>
                     <!-- 加载更多 -->
                     <div class="load-more-group">
-                        <button class="load-more">查看更多</button>
+                        <button id="load-more-btn" class="load-more">查看更多</button>
                     </div>
                 </div>
             </div>

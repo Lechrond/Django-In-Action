@@ -156,7 +156,7 @@ Banner.prototype.listenPageControl = function () {
     var self = this;
     self.pageControl.children('li').each(function (index, obj) {
         $(obj).click(function () {
-            self.index = index+1;
+            self.index = index + 1;
             self.animate();
         })
     })
@@ -177,7 +177,47 @@ Banner.prototype.run = function () {
     this.listenPageControl();
 };
 
+function Index() {
+    var self = this;
+    self.page = 2;
+}
+
+Index.prototype.listenLoadMoreEvent = function () {
+    var self = this;
+    var loadBtn = $("#load-more-btn");
+    loadBtn.click(function () {
+        xfzajax.get({
+            'url': '/news/list/',
+            'data': {
+                'p': self.page
+            },
+            'success': function (result) {
+                if (result['code'] === 200) {
+                    var newses = result['data'];
+                    if (newses.length > 0) {
+                        var html = template("news-item", {"newses": newses});
+                        var ul = $(".list-inner-group");
+                        ul.append(html);
+                        self.page++;
+                    } else {
+                        loadBtn.hide();
+                    }
+                }
+            }
+        })
+    });
+};
+
+
+Index.prototype.run = function () {
+    var self = this;
+    self.listenLoadMoreEvent();
+};
+
 $(function () {
     var banner = new Banner();
     banner.run();
+
+    var index = new Index();
+    index.run();
 });
