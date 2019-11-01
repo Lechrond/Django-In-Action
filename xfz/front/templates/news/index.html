@@ -33,7 +33,7 @@
                     <!-- 作者 -->
                     <span class="author">{{ news.author.username }}</span>
                     <!-- 时间 -->
-                    <span class="pub-time">{{ news.pub_time }}</span>
+                    <span class="pub-time">{{ news.pub_time|timeSince }}</span>
                 </p>
             </div>
         </li>
