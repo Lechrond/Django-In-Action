@@ -15,14 +15,14 @@
         <li>
             <!-- 缩略图 -->
             <div class="thumbnail-group">
-                <a href="#"><img
+                <a href="/news/{{ news.id }}/"><img
                         src="{{ news.thumbnail }}"
                         alt=""></a>
             </div>
             <!-- 新闻摘要 -->
             <div class="news-group">
                 <!-- 标题 -->
-                <p class="title"><a href="#">{{ news.title }}</a>
+                <p class="title"><a href="/news/{{ news.id }}/">{{ news.title }}</a>
                 </p>
                 <!-- 描述信息 -->
                 <p class="decs">{{ news.desc }}</p>
@@ -81,9 +81,11 @@
                 <div class="list-outer-group">
                     <!-- 新闻导航条 -->
                     <ul class="list-tab">
-                        <li data-category="0" class="active"><a href="javascript:void(0)">最新资讯</a></li>
+                        <li data-category="0" class="active"><a href="javascript:void(0)">最新资讯</a>
+                        </li>
                         {% for category in categories %}
-                            <li data-category="{{ category.pk }}"><a href="javascript:void(0)">{{ category.name }}</a></li>
+                            <li data-category="{{ category.pk }}"><a
+                                    href="javascript:void(0)">{{ category.name }}</a></li>
                         {% endfor %}
 
                     </ul>
@@ -93,14 +95,14 @@
                             <li>
                                 <!-- 缩略图 -->
                                 <div class="thumbnail-group">
-                                    <a href="#"><img
+                                    <a href="{% url 'news:news_detail' news_id=news.pk %}"><img
                                             src="{{ news.thumbnail }}"
                                             alt=""></a>
                                 </div>
                                 <!-- 新闻摘要 -->
                                 <div class="news-group">
                                     <!-- 标题 -->
-                                    <p class="title"><a href="#">{{ news.title }}</a>
+                                    <p class="title"><a href="{% url 'news:news_detail' news_id=news.pk %}">{{ news.title }}</a>
                                     </p>
                                     <!-- 描述信息 -->
                                     <p class="decs">{{ news.desc }}</p>
