@@ -10,7 +10,7 @@
     <script src="{% static 'js/index.min.js' %}"></script>
     <script src="{% static 'arttemplate/template-web.js' %}"></script>
     <script id="news-item" type="text/html">
-    {% verbatim %}
+        {% verbatim %}
         {{ each newses news index }}
         <li>
             <!-- 缩略图 -->
@@ -81,8 +81,9 @@
                 <div class="list-outer-group">
                     <!-- 新闻导航条 -->
                     <ul class="list-tab">
+                        <li data-category="0" class="active"><a href="javascript:void(0)">最新资讯</a></li>
                         {% for category in categories %}
-                            <li><a href="#">{{ category.name }}</a></li>
+                            <li data-category="{{ category.pk }}"><a href="javascript:void(0)">{{ category.name }}</a></li>
                         {% endfor %}
 
                     </ul>
