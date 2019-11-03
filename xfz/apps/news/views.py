@@ -1,10 +1,11 @@
 from django.shortcuts import render
-from .models import News, NewsCategor
+from .models import News, NewsCategor, Comment
 from django.conf import settings
 from utils import restful
-from .serializers import NewsSerializer
+from .serializers import NewsSerializer, CommentSerializer
 from django.http import Http404
 from django.db import connection
+from .forms import PublicCommentForm
 
 
 # Create your views here.
@@ -41,13 +42,28 @@ def news_list(request):
 
 def news_detail(request, news_id):
     try:
-        news = News.objects.select_related('category', 'author').get(pk=news_id)
+        news = News.objects.select_related('category', 'author').prefetch_related(
+            "comments__author").get(pk=news_id)
         context = {
             'news': news
         }
         return render(request, 'news/news_detail.html', context=context)
-    except:
+    except News.DoesNotExist:
         raise Http404
+
+
+def public_comment(request):
+    form = PublicCommentForm(request.POST)
+    if form.is_valid():
+        news_id = form.cleaned_data.get('news_id')
+        content = form.cleaned_data.get('content')
+        news = News.objects.get(pk=news_id)
+        comment = Comment.objects.create(content=content, news=news, author=request.user)
+        serializer = CommentSerializer(comment)
+        data = serializer.data
+        return restful.result(data=data)
+    else:
+        return restful.params_errors(message=form.get_errors())
 
 
 def search(request):

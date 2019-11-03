@@ -37,10 +37,9 @@
                 </p>
             </div>
         </li>
-
         {{ /each }}
+        {% endverbatim %}
     </script>
-    {% endverbatim %}
 {% endblock %}
 
 {% block main %}
@@ -102,7 +101,8 @@
                                 <!-- 新闻摘要 -->
                                 <div class="news-group">
                                     <!-- 标题 -->
-                                    <p class="title"><a href="{% url 'news:news_detail' news_id=news.pk %}">{{ news.title }}</a>
+                                    <p class="title"><a
+                                            href="{% url 'news:news_detail' news_id=news.pk %}">{{ news.title }}</a>
                                     </p>
                                     <!-- 描述信息 -->
                                     <p class="decs">{{ news.desc }}</p>
