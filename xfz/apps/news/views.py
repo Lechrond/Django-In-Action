@@ -6,6 +6,7 @@ from .serializers import NewsSerializer, CommentSerializer
 from django.http import Http404
 from django.db import connection
 from .forms import PublicCommentForm
+from apps.xfzauth.decorators import xfz_login_required
 
 
 # Create your views here.
@@ -52,6 +53,7 @@ def news_detail(request, news_id):
         raise Http404
 
 
+@xfz_login_required
 def public_comment(request):
     form = PublicCommentForm(request.POST)
     if form.is_valid():
