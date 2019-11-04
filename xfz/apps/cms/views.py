@@ -2,13 +2,14 @@ from django.shortcuts import render
 from django.contrib.admin.views.decorators import staff_member_required
 from django.views.generic import View
 from django.views.decorators.http import require_POST, require_GET
-from apps.news.models import NewsCategor
-from .forms import EditNewsCategoryForm, WriteNewsForm
+from apps.news.models import NewsCategor, Banner
+from .forms import EditNewsCategoryForm, WriteNewsForm, AddBannerForm
 from utils import restful
 import os
 from django.conf import settings
 import qiniu
 from apps.news.models import News
+from apps.news.serializers import BannerSerializer
 
 
 # Create your views here.
@@ -110,3 +111,23 @@ def qntoken(request):
 
 def banners(request):
     return render(request, 'cms/banners.html')
+
+
+def banner_list(request):
+    # 以前后端分离的方式返回当前数据库中的轮播图
+    banners = Banner.objects.all()
+    serializer = BannerSerializer(banners, many=True)
+    data = serializer.data
+    return restful.result(data=data)
+
+
+def add_banner(request):
+    form = AddBannerForm(request.POST)
+    if form.is_valid():
+        priority = form.cleaned_data.get('priority')
+        image_url = form.cleaned_data.get('image_url')
+        link_to = form.cleaned_data.get('link_to')
+        banner = Banner.objects.create(priority=priority, image_url=image_url, link_to=link_to)
+        return restful.result(data={'banner_id': banner.pk})
+    else:
+        return restful.params_errors(message=form.get_errors())

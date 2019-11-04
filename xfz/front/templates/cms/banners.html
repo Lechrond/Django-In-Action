@@ -53,33 +53,55 @@
             </ul>
         </div>
     </div>
-    <div class="banner-list-group"></div>
+    <div class="banner-list-group">
+    </div>
     <script id="banner-item" type="text/html">
         {% verbatim %}
         <div class="box banner-item">
-            <div class="class-header" style="padding: 10px">
-                <span>位置：0</span>
-                <button class="btn btn-default btn-xs pull-right">
+            <div class="box-header">
+                {{ if banner }}
+                <span class="priority">优先级：{{ banner.priority }}</span>
+                {{ else }}
+                <span class="priority">优先级：0</span>
+                {{ /if }}
+                <button class="btn btn-default btn-xs pull-right" id="close-btn">
                     <i class="fa fa-close"></i>
                 </button>
             </div>
             <div class="box-body">
                 <div class="thumbnail-group">
                     <input type="file" style="display: none" class="image-input">
+                    {{ if banner }}
+                    <img class="thumbnail" src="{{ banner.image_url }}" alt=""
+                         style="cursor: pointer">
+                    {{ else }}
                     <img class="thumbnail" src="/static/images/banner.png"
                          alt="" style="cursor: pointer">
+                    {{ /if }}
                 </div>
                 <div class="more-group">
                     <div class="form-group">
-                        <input type="number" class="form-control" name="position" placeholder="请输入位置">
+                        {{ if banner }}
+                        <input type="number" class="form-control" name="priority"
+                                value="{{ banner.priority }}">
+                        {{ else }}
+                        <input type="number" class="form-control" name="priority"
+                               placeholder="请输入优先级">
+                        {{ /if }}
                     </div>
                     <div class="form-group">
-                        <input type="text" class="form-control" name="link_to" placeholder="请输入转跳的url">
+                        {{ if banner }}
+                        <input type="text" class="form-control" name="link_to"
+                               value="{{ banner.link_to }}">
+                        {{ else }}
+                        <input type="text" class="form-control" name="link_to"
+                               placeholder="请输入转跳的url">
+                        {{ /if }}
                     </div>
                 </div>
             </div>
             <div class="box-footer">
-                <button class="btn btn-primary pull-right">保存</button>
+                <button class="btn btn-primary pull-right" id="save-btn">保存</button>
             </div>
         </div>
 
