@@ -121,6 +121,12 @@ def banner_list(request):
     return restful.result(data=data)
 
 
+def delete_banner(request):
+    banner_id = request.POST.get("banner_id")
+    Banner.objects.filter(pk=banner_id).delete()
+    return restful.ok()
+
+
 def add_banner(request):
     form = AddBannerForm(request.POST)
     if form.is_valid():

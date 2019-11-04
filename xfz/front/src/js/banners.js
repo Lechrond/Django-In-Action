@@ -68,8 +68,29 @@ Banners.prototype.addImageSelectEvent = function (bannerItem) {
 
 Banners.prototype.listenRemoveBannerEvent = function (bannerItem) {
     var closeBtn = bannerItem.find('#close-btn');
+    var bannerId = bannerItem.attr('data-banner-id');
     closeBtn.click(function () {
-        bannerItem.remove();
+        if (bannerId) {
+            xfzalert.alertConfirm({
+                'text': '您确定要删除这个轮播图吗？',
+                'confirmCallback': function () {
+                    xfzajax.post({
+                        'url':'/cms/delete_banner/',
+                        'data':{
+                            'banner_id':bannerId
+                        },
+                        'success':function (result) {
+                            if (result['code']===200){
+                                bannerItem.remove();
+                                window.messageBox.showSuccess("删除成功");
+                            }
+                        }
+                    })
+                }
+            })
+        } else {
+            bannerItem.remove();
+        }
     });
 };
 
