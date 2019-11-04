@@ -1,0 +1,88 @@
+{% extends 'cms/base.html' %}
+{% block title %}
+    轮播图管理
+{% endblock %}
+{% block head %}
+    <style>
+        .btn-group {
+            float: left;
+        }
+
+        .tips {
+            float: left;
+        }
+
+        .banner-item {
+            width: 800px;
+        }
+
+        .thumbnail-group {
+            float: left;
+            width: 250px;
+        }
+
+        .thumbnail-group .thumbnail {
+            width: 100%;
+            height: 85px;
+        }
+
+        .more-group {
+            float: left;
+            margin-left: 20px;
+            width: 450px;
+        }
+    </style>
+    <script src="{% static 'arttemplate/template-web.js' %}"></script>
+    <script src="{% static 'js/banners.min.js' %}"></script>
+{% endblock %}
+{% block content-header %}
+    <h1>轮播图管理</h1>
+{% endblock %}
+{% block content %}
+    <div class="row">
+        <div class="col-md-12">
+            <div class="btn-group">
+                <button class="btn btn-primary" id="add-banner-btn">
+                    <i class="fa fa-plus"></i>
+                    <span>添加轮播图</span>
+                </button>
+            </div>
+            <ul class="tips">
+                <li>支持JPG,GIF,PNG格式，最多上传6张图片</li>
+                <li>比例4：1，宽度在800px以上，5M以内</li>
+            </ul>
+        </div>
+    </div>
+    <div class="banner-list-group"></div>
+    <script id="banner-item" type="text/html">
+        {% verbatim %}
+        <div class="box banner-item">
+            <div class="class-header" style="padding: 10px">
+                <span>位置：0</span>
+                <button class="btn btn-default btn-xs pull-right">
+                    <i class="fa fa-close"></i>
+                </button>
+            </div>
+            <div class="box-body">
+                <div class="thumbnail-group">
+                    <input type="file" style="display: none" class="image-input">
+                    <img class="thumbnail" src="/static/images/banner.png"
+                         alt="" style="cursor: pointer">
+                </div>
+                <div class="more-group">
+                    <div class="form-group">
+                        <input type="number" class="form-control" name="position" placeholder="请输入位置">
+                    </div>
+                    <div class="form-group">
+                        <input type="text" class="form-control" name="link_to" placeholder="请输入转跳的url">
+                    </div>
+                </div>
+            </div>
+            <div class="box-footer">
+                <button class="btn btn-primary pull-right">保存</button>
+            </div>
+        </div>
+
+        {% endverbatim %}
+    </script>
+{% endblock %}

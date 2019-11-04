@@ -88,6 +88,7 @@ def delete_news_category(request):
 
 @require_POST
 def upload_file(request):
+    # 获取上传的文件并保存，然后返回保存的路径url
     file = request.FILES.get('file')
     name = file.name
     with open(os.path.join(settings.MEDIA_ROOT, name), 'wb') as fp:
@@ -105,3 +106,7 @@ def qntoken(request):
     bucket_name = settings.QINIU_BUCKET_NAME
     token = q.upload_token(bucket=bucket_name)
     return restful.result(data={'token': token})
+
+
+def banners(request):
+    return render(request, 'cms/banners.html')
