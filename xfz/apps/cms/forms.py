@@ -20,3 +20,13 @@ class AddBannerForm(forms.ModelForm, FormMixin):
     class Meta:
         model = Banner
         fields = ('priority', 'image_url', 'link_to')
+
+
+class EditBannerForm(forms.ModelForm, FormMixin):
+    # 由于定义模型的时候使用了默认的主键，所以不能使用fields的方式来包括id
+    # 另外id是django的一个关键字参数，所以使用pk作为变量名
+    pk = forms.IntegerField()
+
+    class Meta:
+        model = Banner
+        fields = ('priority', 'image_url', 'link_to')
