@@ -21,8 +21,14 @@ Banners.prototype.createBannnerItem = function (banner) {
 
 Banners.prototype.listenAddBannerEvent = function () {
     var self = this;
+    var bannerListGroup = $(".banner-list-group");
     var addBtn = $("#add-banner-btn");
     addBtn.click(function () {
+        var length = bannerListGroup.children().length;
+        if (length >= 6) {
+            window.messageBox.showInfo("最多只能添加六张轮播图");
+            return;
+        }
         // var tpl = template("banner-item");
         // var bannerListGroup = $(".banner-list-group");
         // bannerListGroup.prepend(tpl);
