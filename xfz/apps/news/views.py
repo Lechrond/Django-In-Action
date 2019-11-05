@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from .models import News, NewsCategor, Comment
+from .models import News, NewsCategor, Comment, Banner
 from django.conf import settings
 from utils import restful
 from .serializers import NewsSerializer, CommentSerializer
@@ -15,9 +15,11 @@ def index(request):
     # 优化查询
     newses = News.objects.select_related('category', 'author').all()[0:count]
     categories = NewsCategor.objects.all()
+    banners = Banner.objects.all()
     context = {
         'newses': newses,
         'categories': categories,
+        'banners': banners
     }
     return render(request, 'news/index.html', context=context)
 

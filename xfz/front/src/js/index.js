@@ -82,7 +82,8 @@ Banner.prototype.animate = function () {
     //实现图片轮播到指定的index
     var self = this;
     //每次轮播的移动时间为500ms
-    this.bannerUl.animate({'left': -798 * self.index}, 500);
+    //先把先前的动画停止，防止切出页面再切回后变成双倍速度
+    this.bannerUl.stop().animate({'left': -798 * self.index}, 500);
     var index = self.index;
     if (index === 0) {
         index = self.bannerCount - 1;

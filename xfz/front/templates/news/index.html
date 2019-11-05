@@ -51,21 +51,13 @@
                 <div class="banner-group" id="banner-group">
 
                     <ul class="banner-ul" id="banner-ul">
-                        <li><a href="#">
-                            <img src="https://static-image.xfz.cn/1571292192_9.jpg" alt="">
-                        </a></li>
-                        <li><a href="#">
-                            <img src="https://static-image.xfz.cn/1570772085_706.jpg" alt="">
-                        </a></li>
-                        <li><a href="#">
-                            <img src="https://static-image.xfz.cn/1570765909_110.png" alt="">
-                        </a></li>
-                        <li><a href="#">
-                            <img src="https://static-image.xfz.cn/1571191958_695.png" alt="">
-                        </a></li>
-                        <li><a href="#">
-                            <img src="https://static-image.xfz.cn/1571105333_385.jpg" alt="">
-                        </a></li>
+                        {% for banner in banners %}
+                            <li><a href="{{ banner.link_to }}">
+                                <img src="{{ banner.image_url }}" alt="">
+                            </a></li>
+
+                        {% endfor %}
+
                     </ul>
 
                     <span class="arrow left-arrow">‹</span>

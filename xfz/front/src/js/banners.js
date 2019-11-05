@@ -74,8 +74,8 @@ Banners.prototype.addImageSelectEvent = function (bannerItem) {
 
 Banners.prototype.listenRemoveBannerEvent = function (bannerItem) {
     var closeBtn = bannerItem.find('#close-btn');
-    var bannerId = bannerItem.attr('data-banner-id');
     closeBtn.click(function () {
+        var bannerId = bannerItem.attr('data-banner-id');
         if (bannerId) {
             xfzalert.alertConfirm({
                 'text': '您确定要删除这个轮播图吗？',
