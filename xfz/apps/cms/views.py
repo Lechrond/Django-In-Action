@@ -42,6 +42,16 @@ class WriteNewView(View):
             return restful.params_errors(message=form.get_errors())
 
 
+def news_list(request):
+    categories = NewsCategor.objects.all()
+    newses = News.objects.select_related('category', 'author').all()
+    context = {
+        'newses': newses,
+        'categories': categories
+    }
+    return render(request, 'cms/news_list.html', context=context)
+
+
 @require_GET
 def news_category(request):
     categories = NewsCategor.objects.all()
