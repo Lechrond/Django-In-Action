@@ -10,6 +10,7 @@ from django.conf import settings
 import qiniu
 from apps.news.models import News
 from apps.news.serializers import BannerSerializer
+from django.core.paginator import Paginator
 
 
 # Create your views here.
@@ -42,14 +43,63 @@ class WriteNewView(View):
             return restful.params_errors(message=form.get_errors())
 
 
-def news_list(request):
-    categories = NewsCategor.objects.all()
-    newses = News.objects.select_related('category', 'author').all()
-    context = {
-        'newses': newses,
-        'categories': categories
-    }
-    return render(request, 'cms/news_list.html', context=context)
+class NewsListView(View):
+    def get(self, request):
+        categories = NewsCategor.objects.all()
+        newses = News.objects.select_related('category', 'author').all()
+        # 获取第几页的数据
+        page_index = int(request.GET.get('p', 1))
+        # 转化为paginator对象
+        paginator = Paginator(newses, 2)
+        # 提取page_index页的数据
+        page_obj = paginator.page(page_index)
+        # 获取分页栏所需的数据
+        context_data = self.get_pagination_data(paginator, page_obj)
+        context = {
+            'newses': page_obj.object_list,
+            'categories': categories,
+            # 集成普通的View所以需要手动传递page_obj
+            'page_obj': page_obj
+        }
+        # 更新字典
+        context.update(context_data)
+        return render(request, 'cms/news_list.html', context=context)
+
+    def get_pagination_data(self, paginator, page_obj, around_count=2):
+        # 当前页号
+        current_page = page_obj.number
+        # 总页数
+        num_pages = paginator.num_pages
+        # 是否上一页
+        left_has_more = False
+        # 是否有下一页
+        right_has_more = False
+
+        if current_page <= around_count + 2:
+            left_pages = range(1, current_page)
+        else:
+            left_has_more = True
+            left_pages = range(current_page - around_count, current_page)
+
+        if current_page >= num_pages - around_count - 1:
+            right_pages = range(current_page + 1, num_pages + 1)
+        else:
+            right_has_more = True
+            right_pages = range(current_page + 1, current_page + around_count + 1)
+
+        return {
+            # 左边页码的下标
+            'left_pages': left_pages,
+            # 右边页码的下标
+            'right_pages': right_pages,
+            # 当前页码的下标
+            'current_page': current_page,
+            # 是否还有上一页
+            'left_has_more': left_has_more,
+            # 是否还有下一页
+            'right_has_more': right_has_more,
+            'num_pages': num_pages
+        }
 
 
 @require_GET
