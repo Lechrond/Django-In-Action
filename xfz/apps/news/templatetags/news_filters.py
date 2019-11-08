@@ -1,6 +1,6 @@
 from django import template
 from datetime import datetime
-from django.utils.timezone import now as now_func
+from django.utils.timezone import now as now_func, localtime
 
 register = template.Library()
 
@@ -34,3 +34,11 @@ def time_since(value):
         return "%s天前" % days
     else:
         return value.strftime("%Y/%m/%d %H:%M")
+
+
+@register.filter
+def time_format(value):
+    if not isinstance(value, datetime):
+        return value
+
+    return localtime(value).strftime("%Y/%m/%d %H:%M:%S")

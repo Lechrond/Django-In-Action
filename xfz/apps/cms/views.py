@@ -11,6 +11,9 @@ import qiniu
 from apps.news.models import News
 from apps.news.serializers import BannerSerializer
 from django.core.paginator import Paginator
+from datetime import datetime
+from django.utils.timezone import make_aware
+from urllib import parse
 
 
 # Create your views here.
@@ -45,10 +48,38 @@ class WriteNewView(View):
 
 class NewsListView(View):
     def get(self, request):
-        categories = NewsCategor.objects.all()
-        newses = News.objects.select_related('category', 'author').all()
         # 获取第几页的数据
         page_index = int(request.GET.get('p', 1))
+        start = request.GET.get('start')
+        end = request.GET.get('end')
+        title = request.GET.get('title')
+        category_id = int(request.GET.get('category', 0) or 0)
+        # 新闻
+        newses = News.objects.select_related('category', 'author')
+
+        if start or end:
+            # 如果提交了时间
+            if start:
+                # 如果上传了开始日期，就调整格式
+                start_data = datetime.strptime(start, '%Y/%m/%d')
+            else:
+                # 如果没有上传开始日期，就设置为指定的日期
+                start_data = datetime(year=2018, month=6, day=1)
+
+            if end:
+                end_data = datetime.strptime(end, '%Y/%m/%d')
+            else:
+                # 如果没有提交结束日期，默认设为今天
+                end_data = datetime.today()
+
+            newses = newses.filter(pub_time__range=(make_aware(start_data), make_aware(end_data)))
+
+        if title:
+            newses = newses.filter(title__icontains=title)
+
+        if category_id:
+            newses = newses.filter(category=category_id)
+
         # 转化为paginator对象
         paginator = Paginator(newses, 2)
         # 提取page_index页的数据
@@ -56,11 +87,23 @@ class NewsListView(View):
         # 获取分页栏所需的数据
         context_data = self.get_pagination_data(paginator, page_obj)
         context = {
+            'categories': NewsCategor.objects.all(),
             'newses': page_obj.object_list,
-            'categories': categories,
             # 集成普通的View所以需要手动传递page_obj
-            'page_obj': page_obj
+            'page_obj': page_obj,
+            'paginator': paginator,
+            'start': start,
+            'end': end,
+            'title': title,
+            'category_id': category_id,
+            'url_query': '&' + parse.urlencode({
+                'start': start or '',
+                'end': end or '',
+                'title': title or '',
+                'category': category_id or '',
+            })
         }
+        print(context['url_query'])
         # 更新字典
         context.update(context_data)
         return render(request, 'cms/news_list.html', context=context)
