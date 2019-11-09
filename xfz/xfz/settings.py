@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     'apps.cms',
     'apps.xfzauth',
     'apps.ueditor',
+    'apps.course',
     'rest_framework',
     'debug_toolbar',
 ]

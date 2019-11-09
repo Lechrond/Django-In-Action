@@ -73,6 +73,13 @@ class EditNewsView(View):
             return restful.params_errors(message=form.get_errors())
 
 
+@require_POST
+def delete_news(request):
+    news_id = request.POST.get('news_id')
+    News.objects.filter(pk=news_id).delete()
+    return restful.ok()
+
+
 class NewsListView(View):
     def get(self, request):
         # 获取第几页的数据
@@ -280,3 +287,7 @@ def edit_banner(request):
         return restful.ok()
     else:
         return restful.params_errors(message=form.get_errors())
+
+
+def pub_course(request):
+    return render(request, 'cms/pub_course.html')
