@@ -3,7 +3,7 @@ from django.contrib.admin.views.decorators import staff_member_required
 from django.views.generic import View
 from django.views.decorators.http import require_POST, require_GET
 from apps.news.models import NewsCategor, Banner
-from .forms import EditNewsCategoryForm, WriteNewsForm, AddBannerForm, EditBannerForm
+from .forms import EditNewsCategoryForm, WriteNewsForm, AddBannerForm, EditBannerForm, EditNewsForm
 from utils import restful
 import os
 from django.conf import settings
@@ -22,7 +22,7 @@ def index(request):
     return render(request, 'cms/index.html')
 
 
-class WriteNewView(View):
+class WriteNewsView(View):
     def get(self, request):
         categories = NewsCategor.objects.all()
         context = {
@@ -41,6 +41,33 @@ class WriteNewView(View):
             category = NewsCategor.objects.get(pk=category_id)
             News.objects.create(title=title, desc=desc, thumbnail=thumbnail, content=content,
                                 category=category, author=request.user)
+            return restful.ok()
+        else:
+            return restful.params_errors(message=form.get_errors())
+
+
+class EditNewsView(View):
+    def get(self, request):
+        news_id = int(request.GET.get("news_id"))
+        news = News.objects.get(pk=news_id)
+        context = {
+            'news': news,
+            'categories': NewsCategor.objects.all()
+        }
+        return render(request, 'cms/write_news.html', context=context)
+
+    def post(self, request):
+        form = EditNewsForm(request.POST)
+        if form.is_valid():
+            title = form.cleaned_data.get('title')
+            desc = form.cleaned_data.get('desc')
+            thumbnail = form.cleaned_data.get('thumbnail')
+            content = form.cleaned_data.get('content')
+            category_id = form.cleaned_data.get('category')
+            category = NewsCategor.objects.get(pk=category_id)
+            pk = form.cleaned_data.get('pk')
+            News.objects.filter(pk=pk).update(title=title, desc=desc, thumbnail=thumbnail,
+                                              content=content, category=category)
             return restful.ok()
         else:
             return restful.params_errors(message=form.get_errors())
