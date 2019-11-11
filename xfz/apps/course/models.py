@@ -10,7 +10,7 @@ class Teacher(models.Model):
     username = models.CharField(max_length=100)
     avatar = models.URLField()
     job_title = models.CharField(max_length=100)
-    profile = models.TextField
+    profile = models.TextField()
 
 
 class Course(models.Model):

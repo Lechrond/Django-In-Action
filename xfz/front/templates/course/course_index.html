@@ -7,187 +7,44 @@
 {% endblock %}
 
 {% block main %}
-<div class="main">
-    <div class="course-nav">
-        <div class="nav-container">
-            <h3 class="title">在线课堂</h3>
-            <ul class="nav-list">
-                <li class="active"><a href="#">最新课堂</a></li>
-                <li><a href="#">投资人说</a></li>
-                <li><a href="#">明星案例</a></li>
-                <li><a href="#">创业知识</a></li>
+    <div class="main">
+        <div class="course-nav">
+            <div class="nav-container">
+                <h3 class="title">在线课堂</h3>
+                <ul class="nav-list">
+                    <li class="active"><a href="#">最新课堂</a></li>
+                    <li><a href="#">投资人说</a></li>
+                    <li><a href="#">明星案例</a></li>
+                    <li><a href="#">创业知识</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="wrapper">
+            <ul class="course-list">
+                {% for course in courses %}
+                    <li>
+                        <a href="{% url 'course:course_detail' course_id=course.pk%}">
+                            <div class="thumbnail-group">
+                                <img src="{{ course.cover_url }}"
+                                     alt="" class="thumbnail">
+                            </div>
+                            <div class="course-info">
+                                <p class="title">{{ course.title }}</p>
+                                <p class="author">{{ course.teacher.username }}</p>
+                                <p class="price">
+                                    {% if course.price > 0 %}
+                                        <span class="pay">￥{{ course.price }}</span>
+                                    {% else %}
+                                        <span class="free">免费</span>
+                                    {% endif %}
+                                </p>
+                            </div>
+                        </a>
+                    </li>
+                {% endfor %}
+
+
             </ul>
         </div>
     </div>
-    <div class="wrapper">
-        <ul class="course-list">
-            <li>
-                <a href="#">
-                    <div class="thumbnail-group">
-                        <img src="https://static-image.xfz.cn/1563171621_723.png-course.list.small"
-                             alt="" class="thumbnail">
-                    </div>
-                    <div class="course-info">
-                        <p class="title">创业CEO如何避免技术决策错误</p>
-                        <p class="author">龚世海 / HiCTO创始人兼CEO</p>
-                        <p class="price">
-                            <span class="free">免费</span>
-                        </p>
-                    </div>
-                </a>
-            </li>
-            <li>
-                <a href="#">
-                    <div class="thumbnail-group">
-                        <img src="https://static-image.xfz.cn/1563171621_723.png-course.list.small"
-                             alt="" class="thumbnail">
-                    </div>
-                    <div class="course-info">
-                        <p class="title">创业CEO如何避免技术决策错误</p>
-                        <p class="author">龚世海 / HiCTO创始人兼CEO</p>
-                        <p class="price">
-                            <span class="free">免费</span>
-                        </p>
-                    </div>
-                </a>
-            </li>
-            <li>
-                <a href="#">
-                    <div class="thumbnail-group">
-                        <img src="https://static-image.xfz.cn/1563171621_723.png-course.list.small"
-                             alt="" class="thumbnail">
-                    </div>
-                    <div class="course-info">
-                        <p class="title">创业CEO如何避免技术决策错误</p>
-                        <p class="author">龚世海 / HiCTO创始人兼CEO</p>
-                        <p class="price">
-                            <span class="free">免费</span>
-                        </p>
-                    </div>
-                </a>
-            </li>
-            <li>
-                <a href="#">
-                    <div class="thumbnail-group">
-                        <img src="https://static-image.xfz.cn/1563171621_723.png-course.list.small"
-                             alt="" class="thumbnail">
-                    </div>
-                    <div class="course-info">
-                        <p class="title">创业CEO如何避免技术决策错误</p>
-                        <p class="author">龚世海 / HiCTO创始人兼CEO</p>
-                        <p class="price">
-                            <span class="free">免费</span>
-                        </p>
-                    </div>
-                </a>
-            </li>
-            <li>
-                <a href="#">
-                    <div class="thumbnail-group">
-                        <img src="https://static-image.xfz.cn/1554346329_230.png-course.list.small"
-                             alt="" class="thumbnail">
-                    </div>
-                    <div class="course-info">
-                        <p class="title">创业公司如何设计股权结构</p>
-                        <p class="author">乔继英 / 专业投资人、一线基金董事总经理</p>
-                        <p class="price">
-                            <span class="pay">¥59</span>
-                        </p>
-                    </div>
-                </a>
-            </li>
-            <li>
-                <a href="#">
-                    <div class="thumbnail-group">
-                        <img src="https://static-image.xfz.cn/1554346329_230.png-course.list.small"
-                             alt="" class="thumbnail">
-                    </div>
-                    <div class="course-info">
-                        <p class="title">创业公司如何设计股权结构</p>
-                        <p class="author">乔继英 / 专业投资人、一线基金董事总经理</p>
-                        <p class="price">
-                            <span class="pay">¥59</span>
-                        </p>
-                    </div>
-                </a>
-            </li>
-            <li>
-                <a href="#">
-                    <div class="thumbnail-group">
-                        <img src="https://static-image.xfz.cn/1554346329_230.png-course.list.small"
-                             alt="" class="thumbnail">
-                    </div>
-                    <div class="course-info">
-                        <p class="title">创业公司如何设计股权结构</p>
-                        <p class="author">乔继英 / 专业投资人、一线基金董事总经理</p>
-                        <p class="price">
-                            <span class="pay">¥59</span>
-                        </p>
-                    </div>
-                </a>
-            </li>
-            <li>
-                <a href="#">
-                    <div class="thumbnail-group">
-                        <img src="https://static-image.xfz.cn/1554346329_230.png-course.list.small"
-                             alt="" class="thumbnail">
-                    </div>
-                    <div class="course-info">
-                        <p class="title">创业公司如何设计股权结构</p>
-                        <p class="author">乔继英 / 专业投资人、一线基金董事总经理</p>
-                        <p class="price">
-                            <span class="pay">¥59</span>
-                        </p>
-                    </div>
-                </a>
-            </li>
-            <li>
-                <a href="#">
-                    <div class="thumbnail-group">
-                        <img src="https://static-image.xfz.cn/1563171954_878.png-course.list.small"
-                             alt="" class="thumbnail">
-                    </div>
-                    <div class="course-info">
-                        <p class="title">面对危机公关，多快算快</p>
-                        <p class="author">高超 / 资深品牌公关</p>
-                        <p class="price">
-                            <span class="free">免费</span>
-                        </p>
-                    </div>
-                </a>
-            </li>
-            <li>
-                <a href="#">
-                    <div class="thumbnail-group">
-                        <img src="https://static-image.xfz.cn/1563171954_878.png-course.list.small"
-                             alt="" class="thumbnail">
-                    </div>
-                    <div class="course-info">
-                        <p class="title">面对危机公关，多快算快</p>
-                        <p class="author">高超 / 资深品牌公关</p>
-                        <p class="price">
-                            <span class="free">免费</span>
-                        </p>
-                    </div>
-                </a>
-            </li>
-            <li>
-                <a href="#">
-                    <div class="thumbnail-group">
-                        <img src="https://static-image.xfz.cn/1563171954_878.png-course.list.small"
-                             alt="" class="thumbnail">
-                    </div>
-                    <div class="course-info">
-                        <p class="title">面对危机公关，多快算快</p>
-                        <p class="author">高超 / 资深品牌公关</p>
-                        <p class="price">
-                            <span class="free">免费</span>
-                        </p>
-                    </div>
-                </a>
-            </li>
-            <li></li>
-        </ul>
-    </div>
-</div>
 {% endblock %}

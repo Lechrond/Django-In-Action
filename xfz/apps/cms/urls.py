@@ -20,5 +20,5 @@ urlpatterns = [
     path('banner_list/', views.banner_list, name='banner_list'),
     path('delete_banner/', views.delete_banner, name='delete_banner'),
     path('edit_banner/', views.edit_banner, name='edit_banner'),
-    path('pub_course/', views.pub_course, name='pub_course'),
+    path('pub_course/', views.PubCourse.as_view(), name='pub_course'),
 ]
