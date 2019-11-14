@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     'apps.xfzauth',
     'apps.ueditor',
     'apps.course',
+    'apps.payinfo',
     'rest_framework',
     'debug_toolbar',
 ]
