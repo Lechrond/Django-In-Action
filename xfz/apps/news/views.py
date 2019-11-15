@@ -4,7 +4,7 @@ from django.conf import settings
 from utils import restful
 from .serializers import NewsSerializer, CommentSerializer
 from django.http import Http404
-from django.db import connection
+from django.db.models import Q
 from .forms import PublicCommentForm
 from apps.xfzauth.decorators import xfz_login_required
 
@@ -71,4 +71,9 @@ def public_comment(request):
 
 
 def search(request):
-    return render(request, 'search/search.html')
+    q = request.GET.get('q')
+    context = {}
+    if q:
+        newses = News.objects.filter(Q(title__icontains=q) | Q(content__icontains=q))
+        context['newses'] = newses
+    return render(request, 'search/search.html', context=context)
