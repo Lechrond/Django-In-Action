@@ -43,6 +43,7 @@ INSTALLED_APPS = [
     'apps.payinfo',
     'rest_framework',
     'debug_toolbar',
+    'haystack'
 ]
 
 MIDDLEWARE = [
@@ -188,3 +189,15 @@ DEBUG_TOOLBAR_PANELS = [
 DEBUG_TOOLBAR_CONFIG = {
     'JQUERY_URL': ''
 }
+
+# 搜索引擎配置
+HAYSTACK_CONNECTIONS = {
+    'default': {
+        # 设置haystack的搜索引擎
+        'ENGINE': 'apps.news.whoosh_cn_backend.WhooshEngine',
+        # 设置索引文件的位置
+        'PATH': os.path.join(BASE_DIR, 'whoosh_index'),
+    }
+}
+# 增删改查后自动创建索引
+HAYSTACK_SIGNAL_PROCESSOR = 'haystack.signals.RealtimeSignalProcessor'

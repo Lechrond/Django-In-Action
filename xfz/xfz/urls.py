@@ -20,7 +20,8 @@ from django.conf import settings
 
 urlpatterns = [
                   path('', views.index, name='index'),
-                  path('search/', views.search, name='search'),
+                  # path('search/', views.search, name='search'),
+                  path('search/', include('haystack.urls')),
                   path('news/', include('apps.news.urls')),
                   path('cms/', include('apps.cms.urls')),
                   path('course/', include('apps.course.urls')),

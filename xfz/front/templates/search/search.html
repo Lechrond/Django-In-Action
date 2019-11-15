@@ -21,30 +21,31 @@
                 <div class="recommend-group">
                     <p class="recommend-title">热门推荐</p>
                     <ul class="recommend-list">
-                        {% for news in newses %}
-                            <li>
-                                <div class="thumbnail-group">
-                                    <a href="#">
-                                        <img src="{{ news.thumbnail }}"
-                                             alt="">
-                                    </a>
-                                </div>
-                                <div class="news-group">
-                                    <p class="title">
-                                        <a href="#">{{ news.title }}</a>
-                                    </p>
-                                    <p class="desc">
-                                        {{ news.decs }}
-                                    </p>
-                                    <p class="more">
-                                        <span class="category">{{ news.category.name }}</span>
-                                        <span class="pub-time">{{ news.pub_time|time_since }}</span>
-                                        <span class="author">{{ news.author.username }}</span>
-                                    </p>
-                                </div>
-                            </li>
+                        {% for result in page.object_list %}
+                            {% with result.object as news %}
+                                <li>
+                                    <div class="thumbnail-group">
+                                        <a href="{% url 'news:news_detail' news_id=news.pk %}">
+                                            <img src="{{ news.thumbnail }}"
+                                                 alt="">
+                                        </a>
+                                    </div>
+                                    <div class="news-group">
+                                        <p class="title">
+                                            <a href="{% url 'news:news_detail' news_id=news.pk %}">{{ news.title }}</a>
+                                        </p>
+                                        <p class="desc">
+                                            {{ news.decs }}
+                                        </p>
+                                        <p class="more">
+                                            <span class="category">{{ news.category.name }}</span>
+                                            <span class="pub-time">{{ news.pub_time|time_since }}</span>
+                                            <span class="author">{{ news.author.username }}</span>
+                                        </p>
+                                    </div>
+                                </li>
+                            {% endwith %}
                         {% endfor %}
-
                     </ul>
                 </div>
             </div>
