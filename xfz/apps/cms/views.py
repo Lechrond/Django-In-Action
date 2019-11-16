@@ -16,6 +16,7 @@ from datetime import datetime
 from django.utils.timezone import make_aware
 from urllib import parse
 from apps.course.models import Course, CourseCategory, Teacher
+from apps.xfzauth.models import User
 
 
 # Create your views here.
@@ -320,3 +321,11 @@ class PubCourse(View):
             return restful.ok()
         else:
             return restful.params_errors(message=form.get_errors())
+
+
+def staff_index(request):
+    staffs = User.objects.filter(is_staff=True)
+    context = {
+        'staffs': staffs
+    }
+    return render(request, 'cms/staffs.html', context=context)

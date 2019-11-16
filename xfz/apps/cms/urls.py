@@ -21,4 +21,5 @@ urlpatterns = [
     path('delete_banner/', views.delete_banner, name='delete_banner'),
     path('edit_banner/', views.edit_banner, name='edit_banner'),
     path('pub_course/', views.PubCourse.as_view(), name='pub_course'),
+    path('staffs/', views.staff_index, name='staffs'),
 ]
