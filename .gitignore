@@ -1,5 +1,6 @@
 node_modules/
 static_dist/
+uwsgi.ini
 
 # Byte-compiled / optimized / DLL files
 media/
