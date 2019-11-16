@@ -18,6 +18,8 @@ from urllib import parse
 from apps.course.models import Course, CourseCategory, Teacher
 from apps.xfzauth.models import User
 from django.contrib.auth.models import Group
+from apps.xfzauth.decorators import xfz_superuser_required
+from django.utils.decorators import method_decorator
 
 
 # Create your views here.
@@ -324,6 +326,7 @@ class PubCourse(View):
             return restful.params_errors(message=form.get_errors())
 
 
+@xfz_superuser_required
 def staff_index(request):
     staffs = User.objects.filter(is_staff=True)
     context = {
@@ -332,6 +335,7 @@ def staff_index(request):
     return render(request, 'cms/staffs.html', context=context)
 
 
+@method_decorator(xfz_superuser_required, name='dispatch')
 class AddStaffView(View):
     def get(self, request):
         groups = Group.objects.all()
