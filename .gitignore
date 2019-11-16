@@ -1,6 +1,8 @@
 node_modules/
 static_dist/
 uwsgi.ini
+supervisord.pid
+supervisord.log
 
 # Byte-compiled / optimized / DLL files
 media/
