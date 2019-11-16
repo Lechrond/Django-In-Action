@@ -6,6 +6,27 @@ function FrontBase() {
 FrontBase.prototype.run = function () {
     var self = this;
     self.listenAuthBox();
+    self.handleNavStatus();
+};
+
+FrontBase.prototype.handleNavStatus = function () {
+    // http://127.0.0.1:8000/payinfo/
+    var url = window.location.href;
+    var protocol = window.location.protocol;
+    var host = window.location.host;
+    var domain = protocol + '//' + host;
+    var path = url.replace(domain, '');
+    // console.log('path:' + path);
+    var navList = $(".nav li");
+    navList.each(function (index, element) {
+        var li = $(element);
+        var aTag = li.children("a");
+        var href = aTag.attr('href');
+        if (href === path) {
+            li.addClass("active");
+            return false;
+        }
+    })
 };
 
 FrontBase.prototype.listenAuthBox = function () {
