@@ -69,6 +69,7 @@ def img_captcha(request):
     response.write(out.read())
     response['Content-length'] = out.tell()
     cache.set(text.lower(), text.lower(), 5 * 60)
+    print(cache.get(text.lower()))
     print('图形验证码:', text)
     return response
 

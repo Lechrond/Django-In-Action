@@ -22,4 +22,5 @@ urlpatterns = [
     path('edit_banner/', views.edit_banner, name='edit_banner'),
     path('pub_course/', views.PubCourse.as_view(), name='pub_course'),
     path('staffs/', views.staff_index, name='staffs'),
+    path('add_staffs/', views.AddStaffView.as_view(), name='add_staffs'),
 ]

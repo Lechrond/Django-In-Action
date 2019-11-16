@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render, reverse, redirect
 from django.contrib.admin.views.decorators import staff_member_required
 from django.views.generic import View
 from django.views.decorators.http import require_POST, require_GET
@@ -17,6 +17,7 @@ from django.utils.timezone import make_aware
 from urllib import parse
 from apps.course.models import Course, CourseCategory, Teacher
 from apps.xfzauth.models import User
+from django.contrib.auth.models import Group
 
 
 # Create your views here.
@@ -329,3 +330,24 @@ def staff_index(request):
         'staffs': staffs
     }
     return render(request, 'cms/staffs.html', context=context)
+
+
+class AddStaffView(View):
+    def get(self, request):
+        groups = Group.objects.all()
+        context = {
+            'groups': groups
+        }
+        return render(request, 'cms/add_staff.html', context=context)
+
+    def post(self, request):
+        telephone = request.POST.get('telephone')
+        user = User.objects.filter(telephone=telephone).first()
+        user.is_staff = True
+        # 所有的checkbox的name都是groups，所以需要使用getlist获取全部
+        group_ids = request.POST.getlist("groups")
+        groups = Group.objects.filter(pk__in=group_ids)
+        # `user.groups`：某个用户上的所有分组。多对多的关系。
+        user.groups.set(groups)
+        user.save()
+        return redirect(reverse('cms:staffs'))

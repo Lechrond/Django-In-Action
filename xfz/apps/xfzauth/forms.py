@@ -34,6 +34,7 @@ class RegisterForm(forms.Form, FormMixin):
 
         img_captcha = cleaned_data.get('img_captcha')
         cached_img_captcha = cache.get(img_captcha.lower())
+        print(img_captcha,cached_img_captcha)
         if not cached_img_captcha or cached_img_captcha.lower() != img_captcha.lower():
             raise forms.ValidationError("图形验证码错误")
 
