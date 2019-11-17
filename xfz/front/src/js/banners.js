@@ -14,9 +14,10 @@ Banners.prototype.createBannnerItem = function (banner) {
         bannerListGroup.prepend(tpl);
         bannerItem = bannerListGroup.find(".banner-item:first");
     }
-    self.addImageSelectEvent(bannerItem);
+    // self.addImageSelectEvent(bannerItem);
     self.listenRemoveBannerEvent(bannerItem);
     self.listenSaveBannerEvent(bannerItem);
+    self.listenQiniuUploadFileEvent(bannerItem);
 };
 
 Banners.prototype.listenAddBannerEvent = function () {
@@ -70,6 +71,72 @@ Banners.prototype.addImageSelectEvent = function (bannerItem) {
             }
         });
     });
+};
+
+Banners.prototype.listenQiniuUploadFileEvent = function (bannerItem) {
+    var self = this;
+    var image = bannerItem.find('.thumbnail');
+    //图片是不能打开文件选择窗口的，只能通过input标签
+    var imageInput = bannerItem.find('.image-input');
+    image.click(function () {
+        //通过点击图片，实现input标签的点击
+        imageInput.click();
+    });
+    imageInput.change(function () {
+        var file = this.files[0];
+        xfzajax.get({
+            'url': '/cms/qntoken/',
+            'success': function (result) {
+                if (result['code'] === 200) {
+                    var token = result['data']['token'];
+                    var key = (new Date()).getTime() + '.' + file.name.split('.')[1];
+                    var putExtra = {
+                        fname: key,
+                        params: {},
+                        mimeType: ['image/png', 'image/gif', 'image/jpeg']
+                    };
+                    var config = {
+                        useCdnDomain: true,
+                        retryCount: 6,
+                        region: qiniu.region.z2
+                    };
+                    var observable = qiniu.upload(file, key, token, putExtra, config);
+                    observable.subscribe({
+                        "next": self.handleFileUploadProgress,
+                        "error": self.handleFileUploadError,
+                        // "complete": self.handleFileUploadComplete
+                        "complete": function (response) {
+                            console.log(response);
+                            var domain = 'http://q071w4n4d.bkt.clouddn.com/';
+                            var filename = response.key;
+                            var url = domain + filename;
+                            console.log(url);
+                            image.attr('src', url);
+                        }
+                    });
+                }
+            }
+        })
+    });
+};
+
+Banners.prototype.handleFileUploadProgress = function (response) {
+
+};
+
+Banners.prototype.handleFileUploadError = function (error) {
+    window.messageBox.showError(error.message);
+};
+
+Banners.prototype.handleFileUploadComplete = function (response) {
+    // image获取不到，暂时不知道怎么解决
+    var self = this;
+    console.log(response);
+    var domain = 'http://q071w4n4d.bkt.clouddn.com/';
+    var filename = response.key;
+    var url = domain + filename;
+    console.log(url);
+    self.url = url;
 };
 
 Banners.prototype.listenRemoveBannerEvent = function (bannerItem) {
